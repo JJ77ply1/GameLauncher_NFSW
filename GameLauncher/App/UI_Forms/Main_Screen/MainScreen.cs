@@ -925,8 +925,13 @@ namespace GameLauncher.App.UI_Forms.Main_Screen
                             /* Twitter Account Display */
                             try
                             {
-                                bool ServerTwitterLink = Uri.TryCreate(InformationCache.SelectedServerJSON.twitterUrl, UriKind.Absolute, out Uri uriResult) &&
+                                bool ServerTwitterLink;
+                                try
+                                {
+                                    ServerTwitterLink = Uri.TryCreate(InformationCache.SelectedServerJSON.twitterUrl, UriKind.Absolute, out Uri uriResult) &&
                                                          (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+                                }
+                                catch { ServerTwitterLink = false; }
                                 TwitterIcon.BackgroundImage = ServerTwitterLink ? Theming.TwitterIcon : Theming.TwitterIconDisabled;
                                 TwitterAccountLink.Enabled = ServerTwitterLink;
                                 TwitterAccountLink.Text = ServerTwitterLink ? "Twitter Feed" : string.Empty;
@@ -1292,7 +1297,15 @@ namespace GameLauncher.App.UI_Forms.Main_Screen
                 {
                     DateTime currentTime = DateTime.Now;
 
-                    if ((currentTime.Hour >= 5) && (currentTime.Hour < 12))
+                    if ((currentTime.Hour >= 1) && (currentTime.Hour < 3))
+                    {
+                        _loginWelcomeTime = "Yeah, It is Tomorrow Now";
+                    }
+                    else if ((currentTime.Hour >= 3) && (currentTime.Hour < 5))
+                    {
+                        _loginWelcomeTime = "Hello Handsome";
+                    }
+                    else if ((currentTime.Hour >= 5) && (currentTime.Hour < 12))
                     {
                         _loginWelcomeTime = "Good Morning";
                     }
